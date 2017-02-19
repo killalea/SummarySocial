@@ -1,0 +1,5 @@
+readPostsIntent read me my posts
+readPostsIntent read my top posts
+readPostsIntent read me my facebook posts
+readPostsIntent summarize my posts
+readPostsIntent whats new on facebook?

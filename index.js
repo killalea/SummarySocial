@@ -36,10 +36,8 @@ var Handler = {
 	}
 },
 
-'readFeedIntent': function() {
+'readPostsIntent': function() {
 	var alexa = this;
-
-
 	if(accessToken) {
 		FB.api("me/feed", function(response) {
 			if(response && !response.error) {
