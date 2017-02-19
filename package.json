@@ -1,0 +1,22 @@
+{
+  "name": "summarysocial",
+  "version": "0.0.1",
+  "description": "an alexa app that reads your most important posts from social media",
+  "main": "index.js",
+  "dependencies": {
+    "alexa-sdk": "^1.0.5",
+    "facebook-node": "0.0.3",
+    "tiny-facebook-wrapper": "0.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/killalea/SummarySocial.git"
+  },
+  "author": "SummarySocial",
+  "license": "MIT",
+  "homepage": "https://github.com/killalea/SummarySocial"
+}
