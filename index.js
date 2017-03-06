@@ -1,89 +1,46 @@
-var Alexa = require('alexa-sdk');
-var FB = require('facebook-node');
-var util = require('util');
+var APP_ID = undefined; //replace with "amzn1.echo-sdk-ams.app.[your-unique-value-here]";
+var AlexaSkill = require('./AlexaSkill');
 
+var SummarySocial = function () {
+    AlexaSkill.call(this, APP_ID);
+};
+SummarySocial.prototype = Object.create(AlexaSkill.prototype);
+SummarySocial.prototype.constructor = SummarySocial;
 
-var repeatWelcomeMessage = "Welcome to Summary Social, how can I help you?";
+SummarySocial.prototype.eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
+    console.log("SummarySocial onSessionStarted requestId: " + sessionStartedRequest.requestId
+        + ", sessionId: " + session.sessionId);
+    // any initialization logic goes here
+};
 
-var welcomeMessage = "this is the alpha release, which only supports facebook";
+SummarySocial.prototype.eventHandlers.onLaunch = function (launchRequest, session, response) {
+    console.log("SummarySocial onLaunch requestId: " + launchRequest.requestId + ", sessionId: " + session.sessionId);
+    var speechOutput = "Welcome to the SummarySocial Kit, you can ask for a summary";
+    var repromptText = "You can say hello";
+    response.ask(speechOutput, repromptText);
+};
 
-var stopSkillMessage = "Bye homie!";
+SummarySocial.prototype.eventHandlers.onSessionEnded = function (sessionEndedRequest, session) {
+    console.log("SummarySocial onSessionEnded requestId: " + sessionEndedRequest.requestId
+        + ", sessionId: " + session.sessionId);
+    // any cleanup logic goes here
+};
 
-var helpText = "You can say things like read my posts";
+var sayThis = "A Facebook Summary!";
 
-var tryLaterText = "aye there was an issue, please try again later.";
-
-var noAccessToken = "there is a problem with the acceess token, try again later";
-
-var accessToken = "";
-
-var Handler = {
-	'NewSession': function() {
-		accessToken = this.event.accessToken;
-
-
-
-		if(accessToken) {
-			FB.setAccessToken = (accessToken);
-			this.emit(':ask', welcomeMessage, repeatWelcomeMessage);
-
-		}
-		else {
-			this.emit(':tell', noAccessToken, tryLaterText)
-
-		}
-
-	}
-},
-
-'readPostsIntent': function() {
-	var alexa = this;
-	if(accessToken) {
-		FB.api("me/feed", function(response) {
-			if(response && !response.error) {
-				if(response.data){
-					var output = "";
-					var max = 10;
-
-					for(var i = 0; i < response.data.length; i++) {
-						if(i < max) {
-							output += response.data[i].message + '. ';
-
-						}
-					}
-					alexa.emit(':ask', output, output);
-				}
-				else{
-					//OOPS NO DATA
-				}
-			}
-			else{
-				//OTHER ERRORS
-			}
-		});
-	}
-	else{
-		this.emit(:'tell', noAccessToken,tryLaterText);
-	}
-},
-    'AMAZON.CancelIntent': function () {
-        this.emit(':tell', stopSkillMessage);
+SummarySocial.prototype.intentHandlers = {
+    // register custom intent handlers
+    "SummarySocialIntent": function (intent, session, response) {
+        response.tellWithCard(sayThis, sayThis, sayThis);
     },
-
-    'AMAZON.StopIntent': function () {
-        this.emit(':tell', stopSkillMessage);
-    },
-    'AMAZON.HelpIntent': function () {
-        this.emit(':ask', helpText, helpText);
-    },
-    'Unhandled': function () {
-        this.emit(':ask', helpText, helpText);
+    "AMAZON.HelpIntent": function (intent, session, response) {
+        response.ask("You can say hello to me!", "You can say hello to me!");
     }
 };
 
-exports.handler = function (event, context, callback) {
-    var alexa = Alexa.handler(event, context);
-    alexa.registerHandlers(Handler);
-    alexa.execute();
+// Create the handler that responds to the Alexa Request.
+exports.handler = function (event, context) {
+    // Create an instance of the SummarySocial skill.
+    var summarySocial = new SummarySocial();
+    summarySocial.execute(event, context);
 };
-
