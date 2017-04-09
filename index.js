@@ -45,7 +45,9 @@ var Handler = {
             // FB.api("/me/feed?fields=from,created_time,message,message_tags,story,comments,likes,reactions", function (response) {
             var name = "";
             FB.api("/me", 'get', {fields: 'name'}, function(response){
-              name = response.data.name;
+              if (response && !response.error) { 
+              	name = response.data[0].name;
+              }
             });
             FB.api("/me/feed", 'get', {fields: 'message,from,created_time,likes,comments,status_type'}, function (response) {
                 if (response && !response.error) {
