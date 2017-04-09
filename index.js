@@ -43,6 +43,12 @@ var Handler = {
         if (accessToken) {
             // Call into FB module and get my feed
             // FB.api("/me/feed?fields=from,created_time,message,message_tags,story,comments,likes,reactions", function (response) {
+            var name = "";
+            // FB.api("/me", 'get', {fields: 'name'}, function(response){
+            //   if (response && !response.error) { 
+            //   	name = response.data[0].name;
+            //   }
+            // });
             FB.api("/me/feed", 'get', {fields: 'message,from,created_time,likes,comments,status_type'}, function (response) {
                 if (response && !response.error) {
                     // If we have data
@@ -63,7 +69,7 @@ var Handler = {
                                 var year = Date.getFullYear();
                                 var type = data.status_type;
                                 type = type.split('_').join(' ') //CHECK
-                                if (from === "Molly Socialia") from = "you"; //CHAMGE TO CHECK USER'S NAME
+                                if (from === name) from = "you"; //CHAMGE TO CHECK USER'S NAME
                                 var message = "";
                                 if (data.message) message = data.message;
                                 var likes = 0;
@@ -71,8 +77,7 @@ var Handler = {
                                 var comments = 0;
                                 if (data.comments) comments = data.comments.data.length;
                                 output += "Post " + (i + 1) + ": ";
-                                output += type + " from " + from + " on " + day + " of " + month +": " + year + ": with " + likes + " likes and " + 
-                                		comments + " comments: " + message + ". ";
+                                output += type + " from " + from + " on " + day + " of " + month +": " + year + ": with " + likes + " likes and " + comments + " comments: " + message + ". ";
                             }
                         }
                         alexa.emit(':ask', output, output);
