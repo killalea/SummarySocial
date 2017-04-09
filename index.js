@@ -23,7 +23,7 @@ var Handler = {
 
         // Access token is pass through from the session information
         accessToken = this.event.session.user.accessToken;
-        
+
         // If we have an access token we can continue.
         if (accessToken) {
             FB.setAccessToken(accessToken);
@@ -43,7 +43,7 @@ var Handler = {
         if (accessToken) {
             // Call into FB module and get my feed
             // FB.api("/me/feed?fields=from,created_time,message,message_tags,story,comments,likes,reactions", function (response) {
-            FB.api("/me/feed", 'get', {fields: 'message,from,created_time,likes,comments'}, function (response) {
+            FB.api("/me/feed", 'get', {fields: 'message,from,created_time,likes,comments,status_type'}, function (response) {
                 if (response && !response.error) {
                     // If we have data
                     if (response.data) {
@@ -55,14 +55,18 @@ var Handler = {
                             if (i < max) {
                                 var data = response.data[i];
                                 var from = data.from.name;
-                                if (from === "Molly Socialia") from = "you";
-                                var message = data.message;
+                                var type = data.status_type;
+                                type = type.split('_').join(' ') //CHECK
+                                if (from === "Molly Socialia") from = "you"; //CHAMGE TO CHECK USER'S NAME
+
+                                var message = "";
+                                if ( data.message) message = data.message;
                                 var likes = 0;
                                 if (data.likes) likes = data.likes.data.length;
                                 var comments = 0;
                                 if (data.comments) comments = data.comments.data.length;
                                 // output += "Post " + (i + 1) + " " + response.data[i].message + ". ";
-                                output += "Post " + (i + 1) + " from " + from + ", with " + likes + " likes and " + comments + " comments: " + message + ". ";
+                                output += type + (i + 1) + " from " + from + ", with " + likes + " likes and " + comments + " comments: " + message + ". ";
                             }
                         }
                         alexa.emit(':ask', output, output);
