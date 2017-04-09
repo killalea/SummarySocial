@@ -43,6 +43,10 @@ var Handler = {
         if (accessToken) {
             // Call into FB module and get my feed
             // FB.api("/me/feed?fields=from,created_time,message,message_tags,story,comments,likes,reactions", function (response) {
+            var name = "";
+            FB.api("/me", 'get', {fields: 'name'}, function(response){
+              name = response.data.name;
+            });
             FB.api("/me/feed", 'get', {fields: 'message,from,created_time,likes,comments,status_type'}, function (response) {
                 if (response && !response.error) {
                     // If we have data
@@ -58,7 +62,7 @@ var Handler = {
                                 var time = data.created_time;
                                 var type = data.status_type;
                                 type = type.split('_').join(' ') //CHECK
-                                if (from === "Molly Socialia") from = "you"; //CHAMGE TO CHECK USER'S NAME
+                                if (from === name) from = "you"; //CHAMGE TO CHECK USER'S NAME
 
                                 var message = "";
                                 if (data.message) message = data.message;
@@ -67,7 +71,7 @@ var Handler = {
                                 var comments = 0;
                                 if (data.comments) comments = data.comments.data.length;
                                 output += "Post " + (i + 1) + ": ";
-                                output += type + " from " + from + " at " + time + ", with " + likes + " likes and " + 
+                                output += type + " from " + from + " at " + time + ", with " + likes + " likes and " +
                                 		comments + " comments: " + message + ". ";
                             }
                         }
