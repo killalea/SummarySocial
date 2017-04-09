@@ -53,13 +53,17 @@ var Handler = {
                         // Take the top three posts and parse them to be read out by Alexa.
                         for (var i = 0; i < response.data.length; i++) {
                             if (i < max) {
+                                var months =["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                                 var data = response.data[i];
                                 var from = data.from.name;
-                                var time = data.created_time;
+                                var timestamp = data.created_time;
+                                var date = new Date(timestamp);
+                                var day = Date.getDate();
+                                var month = months[Date.getMonth()];
+                                var year = Date.getFullYear();
                                 var type = data.status_type;
                                 type = type.split('_').join(' ') //CHECK
                                 if (from === "Molly Socialia") from = "you"; //CHAMGE TO CHECK USER'S NAME
-
                                 var message = "";
                                 if (data.message) message = data.message;
                                 var likes = 0;
@@ -67,7 +71,7 @@ var Handler = {
                                 var comments = 0;
                                 if (data.comments) comments = data.comments.data.length;
                                 output += "Post " + (i + 1) + ": ";
-                                output += type + " from " + from + " at " + time + ", with " + likes + " likes and " + 
+                                output += type + " from " + from + " on " + day + " of " + month +": " + year + ": with " + likes + " likes and " + 
                                 		comments + " comments: " + message + ". ";
                             }
                         }
