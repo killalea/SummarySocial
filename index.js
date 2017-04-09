@@ -55,6 +55,7 @@ var Handler = {
                             if (i < max) {
                                 var data = response.data[i];
                                 var from = data.from.name;
+                                var time = data.created_time;
                                 var type = data.status_type;
                                 type = type.split('_').join(' ') //CHECK
                                 if (from === "Molly Socialia") from = "you"; //CHAMGE TO CHECK USER'S NAME
@@ -65,8 +66,8 @@ var Handler = {
                                 if (data.likes) likes = data.likes.data.length;
                                 var comments = 0;
                                 if (data.comments) comments = data.comments.data.length;
-                                output += "Post " + (i + 1) + " ";
-                                output += type + " from " + from + ", with " + likes + " likes and " + 
+                                output += "Post " + (i + 1) + ": ";
+                                output += type + " from " + from + " at " + time + ", with " + likes + " likes and " + 
                                 		comments + " comments: " + message + ". ";
                             }
                         }
