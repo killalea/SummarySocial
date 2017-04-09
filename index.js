@@ -60,13 +60,14 @@ var Handler = {
                                 if (from === "Molly Socialia") from = "you"; //CHAMGE TO CHECK USER'S NAME
 
                                 var message = "";
-                                if ( data.message) message = data.message;
+                                if (data.message) message = data.message;
                                 var likes = 0;
                                 if (data.likes) likes = data.likes.data.length;
                                 var comments = 0;
                                 if (data.comments) comments = data.comments.data.length;
-                                // output += "Post " + (i + 1) + " " + response.data[i].message + ". ";
-                                output += type + (i + 1) + " from " + from + ", with " + likes + " likes and " + comments + " comments: " + message + ". ";
+                                output += "Post " + (i + 1) + " ";
+                                output += type + " from " + from + ", with " + likes + " likes and " + 
+                                		comments + " comments: " + message + ". ";
                             }
                         }
                         alexa.emit(':ask', output, output);
