@@ -1,21 +1,16 @@
 {
-	"intents": 
-	[	
-	  	{
-			"intent": "AMAZON.HelpIntent",
-			"slots": []
-		}, 
-	  	{
-			"intent": "AMAZON.StopIntent",
-			"slots": []
-		}, 
-	  	{
-			"intent": "AMAZON.CancelIntent",
-			"slots": []
-		},  
-	  	{
-			"intent": "readPostsIntent",
-			"slots": []
-		}
-	]
+  "intents": [
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
+      "intent": "readFeedIntent"
+    }
+  ]
 }
