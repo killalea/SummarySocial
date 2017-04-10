@@ -15,6 +15,8 @@ var tryLaterText = "Please try again later."
 
 var noAccessToken = "There was a problem getting the correct token for this skill, have you linked your account from the Alexa store?" + tryLaterText;
 
+var months =["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 var accessToken = "";
 
 // Create a new session handler
@@ -49,7 +51,7 @@ var Handler = {
               	name = response.name;
               }
             });
-            FB.api("/me/feed", 'get', {fields: 'message,from,created_time,likes,comments,status_type'}, function (response) {
+            FB.api("/me/feed", 'get', {fields: 'message,from,created_time,likes,comments,status_type,application'}, function (response) {
                 if (response && !response.error) {
                     // If we have data
                     if (response.data) {
@@ -59,23 +61,32 @@ var Handler = {
                         // Take the top three posts and parse them to be read out by Alexa.
                         for (var i = 0; i < response.data.length; i++) {
                             if (i < max) {
-                                var months =["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                                 var data = response.data[i];
-                                var from = data.from.name;
+
                                 var timestamp = data.created_time;
                                 var date = new Date(timestamp);
                                 var day = date.getDate();
                                 var month = months[date.getMonth()];
                                 var year = date.getFullYear();
+
                                 var type = data.status_type;
                                 type = type.split('_').join(' ');
+                                
+                                var from = data.from.name;
                                 if (from === name) from = "you";
+
                                 var message = "";
                                 if (data.message) message = data.message;
+
                                 var likes = 0;
                                 if (data.likes) likes = data.likes.data.length;
+
                                 var comments = 0;
                                 if (data.comments) comments = data.comments.data.length;
+
+                                if (data.application && data.application.name === "Instagram")
+                                    type = "Instagram post";
+
                                 output += "Post " + (i + 1) + ": ";
                                 output += type + " from " + from + " on " + month + " " + day + ": " + year + 
                                 		": with " + likes + " likes and " + comments + " comments: " + message + ". ";
