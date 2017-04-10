@@ -1,5 +1,11 @@
-readPostsIntent read me my posts
-readPostsIntent read my top posts
-readPostsIntent read me my facebook posts
-readPostsIntent summarize my posts
-readPostsIntent what's new on facebook?
+readFeedIntent summarize my social media
+readFeedIntent read my feed
+readFeedIntent read my posts
+readFeedIntent read my facebook
+readFeedIntent read my facebook posts
+readFeedIntent get my facebook
+readFeedIntent get my facebook posts
+readFeedIntent get my feed
+readFeedIntent get my posts
+readFeedIntent get my face book feed
+readFeedIntent what's new on facebook
